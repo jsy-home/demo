@@ -1,6 +1,6 @@
-package com.example.demo.user.dao;
+package com.example.demo.bussiness.mapper;
 
-import com.example.demo.user.entity.User;
+import com.example.demo.bussiness.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +18,6 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    User getUserByName(String name);
 }

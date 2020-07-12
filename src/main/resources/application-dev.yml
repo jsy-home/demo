@@ -2,5 +2,5 @@ spring:
   datasource:
     name:
     username: root
-    url: jdbc:mysql://localhost:3306/demo?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/mysql?serverTimezone=UTC
     password: jsy-home

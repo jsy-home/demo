@@ -1,11 +1,15 @@
 #主配置文件，配置的公共的配置
 #server
 server:
-  port: 8081
+  port: 8082
 #  spring
 spring:
   application:
     name: demo
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
 #配置过滤
   profiles:
     active: dev #激活哪一个，声明后会将dev和主配置一起加载，类似java的解耦思想 开关
