@@ -1,7 +1,7 @@
 #主配置文件，配置的公共的配置
 #server
 server:
-  port: 8082
+  port: 8083
 #  spring
 spring:
   application:
@@ -30,8 +30,10 @@ spring:
     maxOpenPreparedStatements: 20
 
 mybatis:
-  mapper-locations: classpath:com/example/demo/**/**.xml
-  type-aliases-package: classpath:com.example.demo.**.entity
+  mapper-locations: com/example/demo/bussiness/mapper/**.xml
+  type-aliases-package: com.example.demo.**.entity
+
+
 
 
 

@@ -13,5 +13,5 @@ import org.springframework.stereotype.Component;
 public  class MsgResult {
     private Object data;
     private Integer code;
-    private String Message;
+    private String message;
 }

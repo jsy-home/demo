@@ -2,10 +2,10 @@ package com.example.demo.bussiness.mapper;
 
 import com.example.demo.bussiness.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Mapper
 public interface UserMapper {
     int deleteByPrimaryKey(Long id);
 

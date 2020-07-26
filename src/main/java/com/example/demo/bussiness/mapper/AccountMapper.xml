@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 接口的权限定名-->
+<mapper namespace="com.example.demo.bussiness.mapper.AccountMapper">
+<!--  resultMap 配置字段属性映射-->
+  <resultMap id="account" type="com.example.demo.bussiness.entity.Account">
+    <result property="id" column="id" jdbcType="BIGINT"/>
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="user_id" jdbcType="BIGINT" property="userid" />
+    <association property="user" javaType="com.example.demo.bussiness.entity.User">
+      <result column="username" property="username"/>
+
+    </association>
+  </resultMap>
+  <select id="findAccountById" resultMap="account" >
+    select t.id,t.user_id,t.password,u.username from t_account t,t_user u
+    <where>
+      t.user_id=u.id and u.username=#{username} and t.password=#{password}
+    </where>
+  </select>
+
+</mapper>

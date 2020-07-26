@@ -24,15 +24,16 @@
                 </div>
                 <div class="form">
                     <h2>登录账号</h2>
-                    <form action="/login" method="get">
+                    <form  method="post" id="loginForm">
                         <input type="text" name="username" placeholder="用户名" />
-                        <!--						<input type="password" name="Password" placeholder="密码" required=" " />-->
-                        <input type="submit" value="登录"/>
+                        <input type="password" name="password" placeholder="密码" required="required" />
+                        <input type="password" name="repassword" placeholder="确认密码" required="required"/>
+                        <input type="button" id="login" value="登录"/>
                     </form>
                 </div>
                 <div class="form">
                     <h2>创建账号</h2>
-                    <form  method="post" id="form1" onsubmit="">
+                    <form  method="post" id="registerForm" >
                         <input type="text" name="username" placeholder="用户名" />
                         <!--<input type="password" name="Password" placeholder="密码" required=" " />-->
                         <!--<input type="email" name="Email" placeholder="Email" required=" " />-->
@@ -52,10 +53,38 @@ $('.toggle').click(function(){
 	$(this).children('i').toggleClass('fa-pencil');
 	$('.form').animate({height: "toggle",'padding-top': 'toggle','padding-bottom': 'toggle',opacity: "toggle"}, "slow");
 });
+<!--登录-->
+$('#login').click(function(){
+ var password=$('password').text();
+  var repassword=$('repassword').text();
+
+
+ var data=$('#loginForm').serialize();
+            $.ajax({
+					type: "post",
+					url: "/login",
+					async: false,
+					dataType: "json",
+					data:data,
+					success: function(result) {
+					if(result.code==0){
+					alert("没有该用户，请先注册账号！");
+					}else if(result.code==1){
+					alert(result.message);
+					}
+
+					},
+					error:function(result){
+
+
+					}
+				});
+
+});
 <!--注册-->
 
 $('#register').click(function(){
- var data=$('#form1').serialize();
+ var data=$('#registerForm').serialize();
             $.ajax({
 					type: "post",
 					url: "/addUser",
