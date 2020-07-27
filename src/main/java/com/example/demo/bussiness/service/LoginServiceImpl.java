@@ -48,6 +48,7 @@ public class LoginServiceImpl implements LoginService{
      *  （每个用户一天的发送次数，前一次发送的间隔时间也需要控制，不能频繁发送）
      *  注册是填写邮箱，密码，二次确认密码，邮箱验证码
      *  校验邮箱在系统中是为已存在，校验密码和二次确认密码是否相同，校验邮箱验证码是否和redis中保存的一样，校验都通过，插入用户表，用户注册成功
+     *  （密码加密保存）
      * @param user
      * @return
      */
