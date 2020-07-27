@@ -18,6 +18,7 @@ public class LoginController implements LoginControllerVS {
 
 
     @RequestMapping(value = "/toLogin")
+    // todo 加override 注解
     public String userLogin(){
 
         return "login";
@@ -25,7 +26,9 @@ public class LoginController implements LoginControllerVS {
 
 
     @ResponseBody
+    // todo RequestMapping 指定请求方式
     @RequestMapping("/login")
+    // todo 登录请求参数放在body中
     public MsgResult login(String password,String username){
           Account acc=new Account();
           User user=new User();
@@ -37,6 +40,7 @@ public class LoginController implements LoginControllerVS {
 
     @ResponseBody
     @RequestMapping(value = "/addUser",method = RequestMethod.POST)
+    // todo POST 最好搭配 requestbody一起使用，不要拼在url后面
     public MsgResult register( String username, String mobile){
         User user=new User();
         user.setUsername(username);
