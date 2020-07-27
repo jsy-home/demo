@@ -5,7 +5,12 @@ import com.example.demo.bussiness.entity.Account;
 import com.example.demo.bussiness.entity.User;
 import org.springframework.stereotype.Service;
 
-
+/**
+ * Demo class
+ *
+ * @author keriezhang
+ * @date 2020/7/27
+ */
 public interface LoginService {
 
 
