@@ -7,58 +7,56 @@ import org.springframework.stereotype.Component;
 @Getter
 @Component
 @ToString
+@NoArgsConstructor
 public  class  MsgResult<T> {
-    // todo 封装太简单了，最好把Object改成泛型，用builder模式重新封装
-    private T t ;
+    private T data ;
     private Integer code;
     private String message;
 
-    public MsgResult(Builder<T> builder) {
-        this.t=builder.t;
-        this.code=builder.code;
+    private MsgResult(Builder<T> builder){
         this.message=builder.message;
+        this.code=builder.code;
+        this.data=builder.data;
     }
-    public MsgResult(){
-
+    private static <T> Builder<T> builder(){
+        return new Builder<>();
     }
 
-    public final static class Builder<T>{
+    public static <T> MsgResult<T> success(T data){
+        Builder<T> builder = builder();
+        return builder.setCode(1).setMessage("Success").setData(data).build();
+    }
+
+    public static <T> MsgResult<T> fail(Integer code,String message){
+        Builder<T> builder = builder();
+        return builder.setCode(code).setMessage(message).build();
+    }
+
+    public static class Builder<T>{
+        private T data ;
         private Integer code;
         private String message;
-        private T t;
-
-        public Builder(){
-        }
-
-        public Builder<T> setCode(Integer code) {
-            this.code = code;
+        public Builder(){}
+        public Builder<T> setData(T data){
+            this.data=data;
             return this;
         }
-
-        public Builder<T> setMessage(String message) {
-            this.message = message;
-            return this;
-        }
-
-        public Builder<T> setT(T t){
-            this.t=t;
-            return this;
-        }
-        public MsgResult<T> build(){
-            return new MsgResult<T>(this);
-        }
-        public Builder<T> success(T t){
-            this.code=1;
-            this.message="success";
-            this.t=t;
-            return this;
-        }
-        public Builder<T> fail(Integer code,String message){
+        public Builder<T> setCode(Integer code){
             this.code=code;
+            return this;
+        }
+        public Builder<T> setMessage(String message){
             this.message=message;
             return this;
         }
+        public MsgResult<T> build(){
+            return new MsgResult<>(this);
+        }
+
+
 
     }
+
+
 
 }

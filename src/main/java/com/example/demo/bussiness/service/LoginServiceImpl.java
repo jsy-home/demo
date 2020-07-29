@@ -14,25 +14,24 @@ public class LoginServiceImpl implements LoginService {
     private UserMapper userMapper;
     @Autowired
     private AccountMapper accountMapper;
-    private MsgResult.Builder msg = new MsgResult.Builder();
 
     @Override
-    public MsgResult checkAccount(Account account) {
+    public MsgResult<Account> checkAccount(Account account) {
         Account accountById = accountMapper.findAccountById(account.getUser().getUsername(), account.getPassword());
         if (null != accountById) {
-            return msg.success(account).build();
+            return MsgResult.success(account);
         } else {
-            return msg.fail(0, "用户名密码错误").build();
+            return MsgResult.fail(0,"用户名密码错误");
         }
     }
 
     @Override
-    public MsgResult login(User user) {
+    public MsgResult<User> login(User user) {
         User userByName = userMapper.getUserByName(user.getUsername());
         if (null==userByName) {
-            return msg.fail(0,"登录账号失败").build();
+            return MsgResult.fail(0,"登录账号失败");
         } else {
-            return msg.success(userByName).build();
+            return MsgResult.success(userByName);
         }
     }
 
@@ -45,16 +44,16 @@ public class LoginServiceImpl implements LoginService {
      * 校验邮箱在系统中是为已存在，校验密码和二次确认密码是否相同，校验邮箱验证码是否和redis中保存的一样，校验都通过，插入用户表，用户注册成功
      * （密码加密保存）
      *
-     * @param user
-     * @return
+     * @param user user
+     * @return MsgResult
      */
     @Override
-    public MsgResult register(User user) {
+    public MsgResult<User> register(User user) {
         int insert = userMapper.insert(user);
         if (1 == insert) {
-            return msg.success(user).build();
+            return MsgResult.success(user);
         } else {
-            return msg.fail(0,"用户注册失败").build();
+            return MsgResult.fail(0,"用户注册失败");
         }
     }
 }
