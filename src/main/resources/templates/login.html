@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>用户登录页面</title>
-
+    <title>用户登录注册页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
     <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.min.js"></script>
-
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
 
 </head>
@@ -25,21 +22,25 @@
                 <div class="form">
                     <h2>登录账号</h2>
                     <form  method="post" id="loginForm">
-                        <input type="text" name="username" placeholder="用户名" />
-                        <input type="password" name="password" placeholder="密码" required="required" />
-                        <input type="password" name="repassword" placeholder="确认密码" required="required"/>
+                        <input type="text" id="login_username" placeholder="用户名" />
+                        <input type="password" id="login_password" placeholder="密码" required="required" />
                         <input type="button" id="login" value="登录"/>
                     </form>
                 </div>
                 <div class="form">
                     <h2>创建账号</h2>
                     <form  method="post" id="registerForm" >
-                        <input type="text" name="username" placeholder="用户名" />
+                        <input type="text" id="register_username" placeholder="用户名" />
                         <!--<input type="password" name="Password" placeholder="密码" required=" " />-->
                         <!--<input type="email" name="Email" placeholder="Email" required=" " />-->
-                        <input type="text" name="mobile" placeholder="电话" />
+                        <input type="text" id="register_mobile" placeholder="电话" />
+                        <input type="text" id="emil_check" name="destMailAddress" placeholder="验证邮箱"/>
+                        <input type="button" id="emil" value="获取验证码"/><input type="text" id="ma" name="ma" placeholder="验证码"/>
+                        <p>
                         <input type="button" id="register" value="注册"/>
                         <input type="reset" value="重置"/>
+                        </p>
+                        <input type="button" id="test" placeholder="测试接口"/>
                     </form>
                 </div>
                 <div class="cta"><a href="#">忘记密码?</a></div>
@@ -53,24 +54,49 @@ $('.toggle').click(function(){
 	$(this).children('i').toggleClass('fa-pencil');
 	$('.form').animate({height: "toggle",'padding-top': 'toggle','padding-bottom': 'toggle',opacity: "toggle"}, "slow");
 });
+<!--测试接口鉴权-->
+$('#test').click(function(){
+var token="c87a33316c9529f25022af446f983056";
+$.ajax({
+					type: "post",
+					url: "/test",
+					async: false,
+					dataType: "json",
+					contentType: "application/json",
+					headers:{'token':token},
+					data:token,
+					success: function(result) {
+                     alert("调通了");
+					},
+					error:function(result){
+
+					}
+				});
+})
+
 <!--登录-->
 $('#login').click(function(){
- var password=$('password').text();
-  var repassword=$('repassword').text();
-
-
- var data=$('#loginForm').serialize();
+ var password=$('#login_password')[0].value;
+ var username=$('#login_username')[0].value;
+console.log(username);
+ var data={
+    username,
+    password
+ };
             $.ajax({
 					type: "post",
 					url: "/login",
 					async: false,
 					dataType: "json",
-					data:data,
+					contentType: "application/json",
+					data:JSON.stringify(data),
 					success: function(result) {
 					if(result.code==0){
 					alert("没有该用户，请先注册账号！");
 					}else if(result.code==1){
-					alert(result.message);
+<!--					alert(result.message);-->
+					alert(result.data);
+					console.log(result);
 					}
 
 					},
@@ -84,13 +110,24 @@ $('#login').click(function(){
 <!--注册-->
 
 $('#register').click(function(){
- var data=$('#registerForm').serialize();
+
+var mobile=$('#register_mobile')[0].value;
+ var username=$('#register_username')[0].value;
+ var destMailAddress=$('#emil_check')[0].value;
+ var ma=$('#ma')[0].value;
+  var data={
+    username,
+    mobile,
+    destMailAddress,
+    ma
+ };
             $.ajax({
 					type: "post",
 					url: "/addUser",
 					async: false,
 					dataType: "json",
-					data:data,
+					contentType: "application/json",
+					data:JSON.stringify(data),
 					success: function(result) {
 					    alert(result.message);
 					}
@@ -98,6 +135,20 @@ $('#register').click(function(){
 });
 
 
+<!--获取验证码-->
+$('#emil').click(function(){
+var destMailAddress=$('#emil_check')[0].value;
+            $.ajax({
+					type: "get",
+					url: "/mailService",
+					async: false,
+					dataType: "json",
+					data: "destMailAddress=" + destMailAddress,
+					success: function(result) {
+					alert(result.message);
+					}
+				});
+});
 
 </script>
 <div style="text-align:center;">

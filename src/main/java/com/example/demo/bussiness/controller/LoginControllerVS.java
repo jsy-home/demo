@@ -1,6 +1,8 @@
 package com.example.demo.bussiness.controller;
 
 import com.example.demo.base.utils.MsgResult;
+import com.example.demo.bussiness.domain.LoginRequestDTO;
+import com.example.demo.bussiness.domain.RegisterRequestDTO;
 import com.example.demo.bussiness.entity.Account;
 
 /**
@@ -14,18 +16,14 @@ public interface LoginControllerVS {
      String userLogin();
 
      /**
-      *
-      * @param password
-      * @param username
+      * @param loginRequestDTO login
       * @return
       */
-     MsgResult login(String password,String username);
+     MsgResult login(LoginRequestDTO loginRequestDTO);
 
      /**
-      *
-      * @param username
-      * @param mobile
+      * @param registerRequestDTO register
       * @return
       */
-     MsgResult<Account> register(String username, String mobile);
+     MsgResult<Account> register(RegisterRequestDTO registerRequestDTO);
 }

@@ -1,8 +1,12 @@
 package com.example.demo.bussiness.controller.impl;
 
 
+//import com.example.demo.base.utils.MailUtils;
+import com.example.demo.base.utils.MailUtils;
 import com.example.demo.base.utils.MsgResult;
 import com.example.demo.bussiness.controller.LoginControllerVS;
+import com.example.demo.bussiness.domain.LoginRequestDTO;
+import com.example.demo.bussiness.domain.RegisterRequestDTO;
 import com.example.demo.bussiness.entity.Account;
 import com.example.demo.bussiness.entity.User;
 import com.example.demo.bussiness.service.LoginService;
@@ -15,37 +19,56 @@ public class LoginController implements LoginControllerVS {
 
     @Autowired
     private LoginService loginService;
+    @Autowired
+    MailUtils mailUtils;
 
 
     @RequestMapping(value = "/toLogin")
     @Override
-    public String userLogin(){
+    public String userLogin() {
         return "login";
     }
 
+    @RequestMapping(value = "/test")
+    @ResponseBody
+    public String test() {
+        return "test";
+    }
+
 
     @ResponseBody
-    // todo RequestMapping 指定请求方式
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
-    // todo 登录请求参数放在body中
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @Override
-    public MsgResult<Account> login(String password,String username){
-          Account acc=new Account();
-          User user=new User();
-          user.setUsername(username);
-          acc.setPassword(password);
-          acc.setUser(user);
-        return loginService.checkAccount(acc);
+    public MsgResult login(@RequestBody LoginRequestDTO loginRequestDTO) {
+        Account acc = new Account();
+        User user = new User();
+        user.setUsername(loginRequestDTO.getUsername());
+        acc.setPassword(loginRequestDTO.getPassword());
+        acc.setUser(user);
+        MsgResult<String> userMsgResult = loginService.checkAccount(acc);
+        return userMsgResult;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
-    // todo POST 最好搭配 requestbody一起使用，不要拼在url后面
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @Override
-    public MsgResult register( String username, String mobile){
-        User user=new User();
-        user.setUsername(username);
-        user.setMobile(mobile);
-        return loginService.register(user);
+    public MsgResult register(@RequestBody RegisterRequestDTO registerRequestDTO) {
+        User user = new User();
+        user.setUsername(registerRequestDTO.getUsername());
+        user.setMobile(registerRequestDTO.getMobile());
+        int result = loginService.register(user,registerRequestDTO);
+        if (result == 1) {
+            return MsgResult.success(user);
+        }
+        return MsgResult.fail(0, "用户注册失败");
+    }
+
+    @GetMapping(value = "/mailService")
+    @ResponseBody
+    public MsgResult getMail(@RequestParam String destMailAddress){
+     // 校验邮箱格式
+     //  发送邮件
+        mailUtils.sendMimeMail(destMailAddress);
+        return MsgResult.success("邮件发送成功");
     }
 }

@@ -3,11 +3,8 @@ package com.example.demo.bussiness.entity;
 
 import lombok.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Data
-@Getter
-@Setter
 public class User {
     private Long id;
 

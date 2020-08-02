@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 @Data
-@NoArgsConstructor
 public class Account implements Serializable {
     private Long id;
     private String password;

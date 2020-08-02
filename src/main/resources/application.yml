@@ -12,7 +12,7 @@ spring:
     cache: false
 #配置过滤
   profiles:
-    active: dev #激活哪一个，声明后会将dev和主配置一起加载，类似java的解耦思想 开关
+    active: test #激活哪一个，声明后会将dev和主配置一起加载，类似java的解耦思想 开关
 #datasource
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -28,6 +28,28 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
+  mail:
+    default-encoding: UTF-8
+    #发送邮件的账户
+    username: 2837779203@qq.com
+    # 授权码（获取方式前文已描述）
+    password: tkbblcarpiwldfhi
+    # （邮箱服务器地址，获取方式前文已描述）
+    # 163 邮箱是smtp.163.com
+    # qq邮箱则为smtp.qq.com
+    host: smtp.qq.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+
 
 mybatis:
   mapper-locations: com/example/demo/bussiness/mapper/**.xml
@@ -55,6 +77,9 @@ mybatis:
 aaa:
   aa: 1
   cc: 2
+
+salt:
+  1ck12b13k1jmjxrg1h0129h2lj
 
 
 

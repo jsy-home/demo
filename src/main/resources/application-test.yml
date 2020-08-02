@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    name:
+    username: root
+    url: jdbc:mysql://localhost:330666/mysql?serverTimezone=UTC
+    password: jsy-home
